@@ -2,8 +2,8 @@ import * as tsup from 'tsup';
 
 export default tsup.defineConfig({
   entry: {
-    api: 'src/api.ts',
-    cli: 'src/cli.ts',
+    api: 'src/api/index.ts',
+    cli: 'src/cli/index.ts',
   },
 
   format: 'esm',
