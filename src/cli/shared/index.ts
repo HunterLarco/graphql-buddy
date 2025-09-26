@@ -1,2 +1,2 @@
-export * from './logging'
-export * from './parsePathAliases'
+export * from './logging';
+export * from './parsePathAliases';

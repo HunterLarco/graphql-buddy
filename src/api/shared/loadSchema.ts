@@ -6,8 +6,8 @@ import * as graphqlFileLoader from '@graphql-tools/graphql-file-loader';
 import * as graphqlLoad from '@graphql-tools/load';
 
 export type LoadSchemaOptions = {
-	// Relative paths will be resolved using `base`.
-	files: Array<string>;
+  // Relative paths will be resolved using `base`.
+  files: Array<string>;
 
   // Directory from which `files` are resolved.
   //
@@ -18,14 +18,14 @@ export type LoadSchemaOptions = {
   //
   // Note that relative paths will be resolved relative to `base` to maintain
   // parity with `files`.
-	pathAliases: Map<string, string>;
-}
+  pathAliases: Map<string, string>;
+};
 
 export const loadSchema = async (
-  options: LoadSchemaOptions
+  options: LoadSchemaOptions,
 ): Promise<graphql.GraphQLSchema> => {
   const base = options.base ?? process.cwd();
-  const files = options.files.map(file => nodePath.resolve(base, file));
+  const files = options.files.map((file) => nodePath.resolve(base, file));
 
   const pathAliases = new Map<string, string>();
   for (const [alias, source] of options.pathAliases.entries()) {
@@ -51,4 +51,4 @@ export const loadSchema = async (
       mappings: Object.fromEntries(pathAliases.entries()),
     },
   });
-}
+};

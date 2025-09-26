@@ -29,7 +29,11 @@
     "build": "pnpm run typecheck && pnpm run bundle",
     "typecheck": "tsc --noEmit",
     "bundle": "tsup",
-    "start": "pnpm run build && node dist/cli.js"
+    "start": "pnpm run build && node dist/cli.js",
+    "format": "pnpm run format:prettier",
+    "format:prettier": "prettier . --write",
+    "lint": "concurrently npm:lint:*",
+    "lint:prettier": "prettier . --check"
   },
   "dependencies": {
     "@commander-js/extra-typings": "14.0.0",
@@ -42,6 +46,8 @@
   },
   "devDependencies": {
     "@types/node": "24.5.2",
+    "concurrently": "9.2.1",
+    "prettier": "3.6.2",
     "tsup": "8.5.0",
     "typescript": "5.9.2"
   }

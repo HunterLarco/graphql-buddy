@@ -39,7 +39,9 @@ const main = () => {
 
   commander.program
     .name(`graphql-buddy`)
-    .description(`CLI tools for manipulating graphql // designed for build system tooling.`)
+    .description(
+      `CLI tools for manipulating graphql // designed for build system tooling.`,
+    )
     .addCommand(commands.createBundleCommand())
     .addCommand(commands.createValidateCommand())
     .parse();

@@ -6,7 +6,7 @@ import * as commander from '@commander-js/extra-typings';
 import * as shared from '../shared';
 import * as api from '../../api';
 
-export const createBundleCommand = () => 
+export const createBundleCommand = () =>
   new commander.Command()
     .name(`bundle`)
     .description(`Bundles multiple GraphQL inputs into a single file.`)
@@ -19,10 +19,7 @@ export const createBundleCommand = () =>
       `-a, --alias <pattern...>`,
       `Path alias options for @graphql-tools/load.`,
     )
-    .requiredOption(
-      `--out <file>`,
-      `Where to write the bundled schema.`,
-    )
+    .requiredOption(`--out <file>`, `Where to write the bundled schema.`)
     .option(`-s, --silent`, `Only log critical information.`, false)
     .action((schema, options) =>
       bundle({
@@ -53,10 +50,10 @@ const bundle = async (options: {
         base,
         pathAliases: shared.parsePathAliases(alias ?? []),
       },
-    })
+    }),
   );
 
   if (!silent) {
-    console.log(`✅ bundler encountered no errors.`)
+    console.log(`✅ bundler encountered no errors.`);
   }
-}
+};

@@ -11,4 +11,4 @@ export default tsup.defineConfig({
   dts: true,
   platform: 'node',
   sourcemap: true,
-})
+});

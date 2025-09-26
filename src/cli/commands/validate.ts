@@ -6,7 +6,7 @@ import * as commander from '@commander-js/extra-typings';
 import * as shared from '../shared';
 import * as api from '../../api';
 
-export const createValidateCommand = () => 
+export const createValidateCommand = () =>
   new commander.Command()
     .name(`validate`)
     .description(`Checks that all provided GraphQL files form a valid schema.`)
@@ -31,7 +31,7 @@ export const createValidateCommand = () =>
       }),
     );
 
-const validate  = async (options: {
+const validate = async (options: {
   schema: Array<string>;
   base?: string;
   alias?: Array<string>;
@@ -58,6 +58,6 @@ const validate  = async (options: {
   }
 
   if (!silent) {
-    console.log(`✅ validation encountered no errors.`)
+    console.log(`✅ validation encountered no errors.`);
   }
-}
+};

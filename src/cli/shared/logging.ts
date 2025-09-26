@@ -17,7 +17,7 @@ export const formatPrimitive = (primitive: Primitive): string => {
   } else {
     return JSON.stringify(primitive);
   }
-}
+};
 
 export const formatFile = (path?: string | null): string => {
   if (path == null) {
@@ -25,4 +25,4 @@ export const formatFile = (path?: string | null): string => {
   }
 
   return chalk.cyan(path);
-}
+};
