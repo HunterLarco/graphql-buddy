@@ -1,0 +1,25 @@
+# Outputs
+
+dist/
+
+# Javascript Dependencies
+node_modules/
+.pnpm-*
+
+# Operating Systems
+.DS_Store
+
+# Editors
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+*.launch
+*.sublime-workspace
+*.swp
+.c9/
+.classpath
+.project
+.settings/
+.vscode/*
+/.idea

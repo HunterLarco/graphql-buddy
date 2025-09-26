@@ -1,0 +1,47 @@
+{
+  "name": "graphql-buddy",
+  "version": "0.0.0",
+  "type": "module",
+  "license": "MIT",
+  "author": "Hunter John Larco",
+  "description": "CLI tools for manipulating graphql // designed for build system tooling",
+  "bin": {
+    "graphql-buddy": "./dist/cli.js"
+  },
+  "keywords": [
+    "graphql",
+    "parse",
+    "build",
+    "build-tool",
+    "bundler"
+  ],
+  "main": "./dist/api.js",
+  "types": "./dist/api.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hunterlarco/graphql-buddy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hunterlarco/graphql-buddy/issues"
+  },
+  "funding": "https://github.com/sponsors/hunterlarco",
+  "scripts": {
+    "build": "pnpm run typecheck && pnpm run bundle",
+    "typecheck": "tsc --noEmit",
+    "bundle": "tsup",
+    "start": "pnpm run build && node dist/cli.js"
+  },
+  "dependencies": {
+    "@commander-js/extra-typings": "14.0.0",
+    "@graphql-tools/graphql-file-loader": "8.1.2",
+    "@graphql-tools/load": "8.1.2",
+    "chalk": "5.6.2",
+    "graphql": "16.11.0",
+    "tslib": "2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.5.2",
+    "tsup": "8.5.0",
+    "typescript": "5.9.2"
+  }
+}
