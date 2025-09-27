@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as commander from '@commander-js/extra-typings';
 import * as graphql from 'graphql';
 
