@@ -31,6 +31,7 @@ export const createValidationStamp = (
   stringifyObject.default(
     { options, outcome: { valid: true } },
     {
+      indent: `  `,
       filter: (container, property) =>
         !(container === options.schema && property === `normalized`),
     },

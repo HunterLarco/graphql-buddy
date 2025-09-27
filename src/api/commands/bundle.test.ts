@@ -121,4 +121,18 @@ type FooEvent {
 `.trim(),
     );
   });
+
+  it(`throws for invalid schema.`, async () => {
+    await expect(
+      bundle.bundle({
+        schema: {
+          files: [`*.graphql`],
+          base: nodePath.resolve(
+            __dirname,
+            `../../../test_fixtures/missing_scalar`,
+          ),
+        },
+      }),
+    ).rejects.toThrowError(`Unknown type "DateTime"`);
+  });
 });
