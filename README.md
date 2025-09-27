@@ -1,3 +1,5 @@
+# graphql-buddy
+
 [![npm version](https://badge.fury.io/js/graphql-buddy.svg)](https://badge.fury.io/js/graphql-buddy)
 [![CI](https://github.com/HunterLarco/graphql-buddy/actions/workflows/ci.yml/badge.svg)](https://github.com/HunterLarco/graphql-buddy/actions/workflows/ci.yml)
 
@@ -53,6 +55,17 @@ validation. For example:
 
 ```
 npx graphql-buddy validate **/*.graphql --stamp schema.stamp
+```
+
+## Programmatic Use
+
+All commands and most helpers are available programmatically.
+
+```js
+import * as graphqlBuddy from 'graphql-buddy';
+
+await graphqlBuddy.bundle({ ... });
+await graphqlBuddy.validate({ ... });
 ```
 
 ## Contributions
