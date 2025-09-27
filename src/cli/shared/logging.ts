@@ -12,7 +12,7 @@ export const formatPrimitive = (primitive: Primitive): string => {
     return chalk.dim(`<undefined>`);
   } else if (primitive === null) {
     return chalk.dim(`<null>`);
-  } else if (typeof primitive === 'number') {
+  } else if (typeof primitive === `number`) {
     return primitive.toString();
   } else {
     return JSON.stringify(primitive);

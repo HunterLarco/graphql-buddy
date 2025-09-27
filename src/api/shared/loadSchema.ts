@@ -1,9 +1,10 @@
 import * as nodeFs from 'node:fs/promises';
 import * as nodePath from 'node:path';
 
-import * as graphql from 'graphql';
 import * as graphqlFileLoader from '@graphql-tools/graphql-file-loader';
 import * as graphqlLoad from '@graphql-tools/load';
+
+import type * as graphql from 'graphql';
 
 export type LoadSchemaOptions = {
   // Relative paths will be resolved using `base`.

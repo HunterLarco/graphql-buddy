@@ -1,10 +1,10 @@
-import * as nodePath from 'node:path';
 import * as nodeFs from 'node:fs/promises';
+import * as nodePath from 'node:path';
 
 import * as commander from '@commander-js/extra-typings';
 
-import * as shared from '../shared';
 import * as api from '../../api';
+import * as shared from '../shared';
 
 export const createBundleCommand = () =>
   new commander.Command()
