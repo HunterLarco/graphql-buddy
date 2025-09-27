@@ -24,6 +24,7 @@ export const createBundleCommand = () =>
       `Where to write the bundled schema.`,
       `bundle.graphql`,
     )
+    .option(`--no-shake`, `Prevents pruning of unused types.`)
     .option(`-s, --silent`, `Only log critical information.`, false)
     .action((schema, options) =>
       bundle({
@@ -37,9 +38,10 @@ const bundle = async (options: {
   base?: string;
   alias?: Array<string>;
   out: string;
+  shake: boolean;
   silent: boolean;
 }): Promise<void> => {
-  const { schema, base, alias, silent } = options;
+  const { schema, base, alias, shake, silent } = options;
   const out = nodePath.resolve(base ?? process.cwd(), options.out);
 
   await nodeFs.writeFile(
@@ -50,6 +52,7 @@ const bundle = async (options: {
         base,
         pathAliases: shared.parsePathAliases(alias ?? []),
       },
+      shake,
     }),
   );
 
