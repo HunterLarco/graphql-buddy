@@ -1,3 +1,5 @@
+import * as stringifyObject from 'stringify-object';
+
 import * as shared from '../shared';
 
 export type ValidateOptions = {
@@ -5,9 +7,29 @@ export type ValidateOptions = {
 };
 
 export const validate = async (options: ValidateOptions): Promise<string> => {
-  await shared.loadSchema(options.schema);
-  return createValidationStamp(options);
+  // We manually normalize the `LoadSchemaOptions` so that we can write the most
+  // accurate data in our validation stamp. For example, normalization expands
+  // globs and resolves absolute paths. These are critical steps to ensure the
+  // validation stamp describes without ambiguity which schema were loaded.
+  const normalizedSchemaOptions = await shared.normalizeLoadSchemaOptions(
+    options.schema,
+  );
+
+  await shared.loadSchema(normalizedSchemaOptions);
+
+  return createValidationStamp({
+    ...options,
+    schema: normalizedSchemaOptions,
+  });
 };
 
-export const createValidationStamp = (options: ValidateOptions): string =>
-  `Validation passed with settings: ` + JSON.stringify({ options }, null, 2);
+export const createValidationStamp = (
+  options: Omit<ValidateOptions, `schema`> & {
+    schema: shared.NormalizedLoadSchemaOptions;
+  },
+): string =>
+  `Validation passed with settings: ` +
+  stringifyObject.default(options, {
+    filter: (container, property) =>
+      !(container === options.schema && property === `normalized`),
+  });
