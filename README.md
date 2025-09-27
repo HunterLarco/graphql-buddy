@@ -21,9 +21,9 @@ Necessary for build tool integrations such as [rules_graphql].
 - [graphql-buddy](#graphql-buddy)
   - [Quick Start](#quick-start)
   - [Documentation](#documentation)
-  - [Bundle](#bundle)
-  - [Validate](#validate)
-  - [Programmatic Use](#programmatic-use)
+    - [Bundle](#bundle)
+    - [Validate](#validate)
+    - [Programmatic Use](#programmatic-use)
   - [Contributions](#contributions)
   <!-- TOC end -->
 
@@ -39,7 +39,7 @@ npx graphql-buddy bundle **/*.graphql
 
 You can always use `graphql-buddy --help` for CLI documentation.
 
-## Bundle
+### Bundle
 
 Bundles multiple schema into a single file _and_ prunes any unused types from
 the bundle.
@@ -53,7 +53,7 @@ npx graphql-buddy bundle **/*.graphql
 npx graphql-buddy bundle **/*.graphql --no-shake
 ```
 
-## Validate
+### Validate
 
 Validates schema, ensuring valid syntax and that all symbols are found.
 
@@ -72,7 +72,7 @@ validation. For example:
 npx graphql-buddy validate **/*.graphql --stamp schema.stamp
 ```
 
-## Programmatic Use
+### Programmatic Use
 
 All commands and most helpers are available programmatically.
 
