@@ -10,7 +10,22 @@ Includes useful tools like:
 - `bundle` ~ merge multiple schema's into one (wth tree shaking).
 - `validate` ~ validate GraphQL schema.
 
-Necessary for build tool integrations such as [rules_graphql](https://github.com/HunterLarco/rules_graphql)
+Necessary for build tool integrations such as [rules_graphql].
+
+[rules_graphql]: https://github.com/HunterLarco/rules_graphql
+
+## Table of Contents
+
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+
+- [graphql-buddy](#graphql-buddy)
+  - [Quick Start](#quick-start)
+  - [Documentation](#documentation)
+  - [Bundle](#bundle)
+  - [Validate](#validate)
+  - [Programmatic Use](#programmatic-use)
+  - [Contributions](#contributions)
+  <!-- TOC end -->
 
 ## Quick Start
 
