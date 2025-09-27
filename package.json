@@ -44,7 +44,6 @@
     "@graphql-tools/graphql-file-loader": "8.1.2",
     "@graphql-tools/load": "8.1.2",
     "@graphql-tools/utils": "10.9.1",
-    "chalk": "5.6.2",
     "commander": "14.0.1",
     "glob": "11.0.3",
     "graphql": "16.11.0",

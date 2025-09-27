@@ -10,6 +10,13 @@ export type BundleOptions = {
   shake?: boolean | null;
 };
 
+/**
+ * Bundles multiple schema together into a single file.
+ *
+ * @param options - Bundle options.
+ *
+ * @returns The merged schema as text.
+ */
 export const bundle = async (options: BundleOptions): Promise<string> => {
   const shake = options.shake ?? true;
 
