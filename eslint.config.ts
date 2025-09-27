@@ -5,7 +5,7 @@ import * as eslint from '@eslint/js';
 import * as eslintImportPlugin from 'eslint-plugin-import';
 import * as tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+const CONFIG: tseslint.ConfigArray = tseslint.config(
   eslintCompat.includeIgnoreFile(
     nodeUrl.fileURLToPath(new URL(`.gitignore`, import.meta.url)),
     `Imported .gitignore patterns`,
@@ -162,3 +162,5 @@ export default tseslint.config(
     },
   },
 );
+
+export default CONFIG;

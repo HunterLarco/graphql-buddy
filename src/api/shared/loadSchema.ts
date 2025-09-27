@@ -3,11 +3,14 @@ import * as nodePath from 'node:path';
 
 import * as graphqlFileLoader from '@graphql-tools/graphql-file-loader';
 import * as graphqlLoad from '@graphql-tools/load';
+import * as glob from 'glob';
 
 import type * as graphql from 'graphql';
 
 export type LoadSchemaOptions = {
   // Relative paths will be resolved using `base`.
+  //
+  // Also accepts glob patterns.
   files: Array<string>;
 
   // Directory from which `files` are resolved.
@@ -19,18 +22,22 @@ export type LoadSchemaOptions = {
   //
   // Note that relative paths will be resolved relative to `base` to maintain
   // parity with `files`.
-  pathAliases: Map<string, string>;
+  pathAliases?: Map<string, string> | null;
 };
 
 export const loadSchema = async (
   options: LoadSchemaOptions,
 ): Promise<graphql.GraphQLSchema> => {
   const base = options.base ?? process.cwd();
-  const files = options.files.map((file) => nodePath.resolve(base, file));
+  const files = await glob.glob(
+    options.files.map((file) => nodePath.resolve(base, file)),
+  );
 
   const pathAliases = new Map<string, string>();
-  for (const [alias, source] of options.pathAliases.entries()) {
-    pathAliases.set(alias, nodePath.resolve(base, source));
+  if (options.pathAliases != null) {
+    for (const [alias, source] of options.pathAliases.entries()) {
+      pathAliases.set(alias, nodePath.resolve(base, source));
+    }
   }
 
   // @graphql-tools/graphql-file-loader silently skips input files which are not

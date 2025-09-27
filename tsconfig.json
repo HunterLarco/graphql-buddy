@@ -16,6 +16,5 @@
     "strictNullChecks": true,
     "target": "es2015"
   },
-  "include": ["./src/**/*.ts", "./*.ts"],
-  "exclude": ["./src/**/*.test.ts"]
+  "include": ["./src/**/*.ts", "./*.ts"]
 }

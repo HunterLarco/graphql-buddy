@@ -1,0 +1,46 @@
+type Query {
+  foo: Foo
+}
+
+type Mutation {
+  addFooToBar(displayName: String!): Bar
+}
+
+type Subscription {
+  foo: FooEvent
+}
+
+type Foo {
+  id: ID!
+
+  displayName: String
+}
+
+type Bar {
+  id: ID!
+
+  foo: Foo
+}
+
+type FooEvent {
+  foo: Foo!
+}
+
+# Baz is not referenced by the graph starting at Query/Mutation/Subscription
+type Baz {
+  id: ID!
+
+  bar: Bar
+  qux: Qux
+}
+
+# Qux is not referenced by the graph starting at Query/Mutation/Subscription
+type Qux {
+  id: ID!
+
+  dateCreated: DateTime!
+}
+
+# DateTIme is not referenced by the graph starting at
+# Query/Mutation/Subscription
+scalar DateTime
