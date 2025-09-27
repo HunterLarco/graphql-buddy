@@ -28,8 +28,10 @@ export const createValidationStamp = (
     schema: shared.NormalizedLoadSchemaOptions;
   },
 ): string =>
-  `Validation passed with settings: ` +
-  stringifyObject.default(options, {
-    filter: (container, property) =>
-      !(container === options.schema && property === `normalized`),
-  });
+  stringifyObject.default(
+    { options, outcome: { valid: true } },
+    {
+      filter: (container, property) =>
+        !(container === options.schema && property === `normalized`),
+    },
+  );
