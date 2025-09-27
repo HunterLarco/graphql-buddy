@@ -19,7 +19,11 @@ export const createBundleCommand = () =>
       `-a, --alias <pattern...>`,
       `Path alias options for @graphql-tools/load.`,
     )
-    .requiredOption(`--out <file>`, `Where to write the bundled schema.`)
+    .option(
+      `--out <file>`,
+      `Where to write the bundled schema.`,
+      `bundle.graphql`,
+    )
     .option(`-s, --silent`, `Only log critical information.`, false)
     .action((schema, options) =>
       bundle({
@@ -37,10 +41,6 @@ const bundle = async (options: {
 }): Promise<void> => {
   const { schema, base, alias, silent } = options;
   const out = nodePath.resolve(base ?? process.cwd(), options.out);
-
-  if (!silent) {
-    // TODO: log
-  }
 
   await nodeFs.writeFile(
     out,

@@ -40,10 +40,6 @@ const validate = async (options: {
 }): Promise<void> => {
   const { schema, base, alias, stamp, silent } = options;
 
-  if (!silent) {
-    // TODO: log
-  }
-
   const validationStamp = await api.validate({
     schema: {
       files: schema,
