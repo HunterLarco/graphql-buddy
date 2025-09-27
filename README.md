@@ -24,7 +24,7 @@ You can always use `graphql-buddy --help` for CLI documentation.
 
 ## Bundle
 
-Bundles multiple schema into a single file *and* prunes any unused types from
+Bundles multiple schema into a single file _and_ prunes any unused types from
 the bundle.
 
 For example:
@@ -46,7 +46,7 @@ For example:
 npx graphql-buddy validate **/*.graphql
 ```
 
-For many build systems (such as BUCK and BAZEL) all build steps *must* emit a
+For many build systems (such as BUCK and BAZEL) all build steps _must_ emit a
 file. Validate accomodates this by writing "validation stamps", a file only
 written if validation is successful and documents the exact settings used during
 validation. For example:
