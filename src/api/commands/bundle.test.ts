@@ -90,8 +90,6 @@ type Query {
             `../../../test_fixtures/single_file_with_extra_deps`,
           ),
         },
-        
-        shake: true,
       }),
     ).toStrictEqual(
       `

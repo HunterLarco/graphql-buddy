@@ -38,6 +38,9 @@ importers:
       '@eslint/js':
         specifier: 9.36.0
         version: 9.36.0
+      '@graphql-tools/utils':
+        specifier: 10.9.1
+        version: 10.9.1(graphql@16.11.0)
       '@types/node':
         specifier: 24.5.2
         version: 24.5.2
