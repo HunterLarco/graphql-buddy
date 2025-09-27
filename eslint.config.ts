@@ -2,10 +2,12 @@ import * as nodeUrl from 'node:url';
 
 import * as eslintCompat from '@eslint/compat';
 import * as eslint from '@eslint/js';
+import * as eslintConfig from 'eslint/config';
 import * as eslintImportPlugin from 'eslint-plugin-import';
 import * as tseslint from 'typescript-eslint';
 
 const CONFIG: tseslint.ConfigArray = tseslint.config(
+  eslintConfig.globalIgnores([`pnpm-lock.yaml`]),
   eslintCompat.includeIgnoreFile(
     nodeUrl.fileURLToPath(new URL(`.gitignore`, import.meta.url)),
     `Imported .gitignore patterns`,
