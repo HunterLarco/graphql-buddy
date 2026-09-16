@@ -1,15 +1,17 @@
 import * as graphql from 'graphql';
 import * as stringifyObject from 'stringify-object';
 
+import type * as graphqlUtils from '@graphql-tools/utils';
+
 import * as shared from '../shared';
 
 export type ValidateOptions = {
-  schema: shared.LoadSchemaOptions;
+  schema: shared.GraphqlFiles;
 
   // Optional GraphQL operation documents (queries, mutations, subscriptions,
   // and fragments) to validate against the loaded schema. When omitted, only
   // the schema itself is validated.
-  operations?: shared.LoadDocumentsOptions | null;
+  operations?: shared.GraphqlFiles | null;
 };
 
 /**
@@ -29,18 +31,15 @@ export const validate = async (options: ValidateOptions): Promise<string> => {
   // accurate data in our validation stamp. For example, normalization expands
   // globs and resolves absolute paths. These are critical steps to ensure the
   // validation stamp describes without ambiguity which schema were loaded.
-  const normalizedSchemaOptions = await shared.normalizeLoadSchemaOptions(
+  const normalizedSchemaOptions = await shared.normalizeGraphqlFiles(
     options.schema,
   );
 
   const schema = await shared.loadSchema(normalizedSchemaOptions);
 
-  // Operations are normalized for the same stamp-accuracy reasons as the
-  // schema above.
-  let normalizedOperationsOptions: shared.NormalizedLoadDocumentsOptions | null =
-    null;
+  let normalizedOperationsOptions: shared.NormalizedGraphqlFiles | null = null;
   if (options.operations != null) {
-    normalizedOperationsOptions = await shared.normalizeLoadSchemaOptions(
+    normalizedOperationsOptions = await shared.normalizeGraphqlFiles(
       options.operations,
     );
     validateOperations(
@@ -61,17 +60,21 @@ export const validate = async (options: ValidateOptions): Promise<string> => {
  */
 const validateOperations = (
   schema: graphql.GraphQLSchema,
-  documents: Array<shared.LoadedDocument>,
+  sources: Array<graphqlUtils.Source>,
 ): void => {
   const errors: Array<graphql.GraphQLError> = [];
 
-  for (const { document } of documents) {
+  for (const source of sources) {
+    if (source.document == null) {
+      continue;
+    }
+
     // Fragment-only documents are fragment "libraries" that operations pull in
     // via `#import`. Validated in isolation they would trip
     // `NoUnusedFragmentsRule`, so we drop that single rule for them. Every
     // other rule — most importantly that each referenced field, argument, and
     // type actually exists — is still enforced.
-    const definesOperation = document.definitions.some(
+    const definesOperation = source.document.definitions.some(
       (definition) => definition.kind === graphql.Kind.OPERATION_DEFINITION,
     );
     const rules = definesOperation
@@ -80,7 +83,7 @@ const validateOperations = (
           (rule) => rule !== graphql.NoUnusedFragmentsRule,
         );
 
-    errors.push(...graphql.validate(schema, document, rules));
+    errors.push(...graphql.validate(schema, source.document, rules));
   }
 
   if (errors.length > 0) {
@@ -92,8 +95,8 @@ const validateOperations = (
 };
 
 const createValidationStamp = (options: {
-  schema: shared.NormalizedLoadSchemaOptions;
-  operations: shared.NormalizedLoadDocumentsOptions | null;
+  schema: shared.NormalizedGraphqlFiles;
+  operations: shared.NormalizedGraphqlFiles | null;
 }): string =>
   stringifyObject.default(
     {
