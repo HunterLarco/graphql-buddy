@@ -7,6 +7,13 @@ import type * as graphql from 'graphql';
 
 import * as graphqlFilesModule from './GraphqlFiles';
 
+/**
+ * Loads, validates, and parses graphql schema.
+ *
+ * @param graphqlFiles - Schema files to process.
+ *
+ * @returns The parsed GraphQL schema (or throws an error if parsing fails).
+ */
 export const loadSchema = async (
   graphqlFiles: graphqlFilesModule.GraphqlFiles,
 ): Promise<graphql.GraphQLSchema> => {

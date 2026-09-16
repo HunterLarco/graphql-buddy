@@ -49,16 +49,21 @@ const validate = async (options: {
 
   const pathAliases = shared.parsePathAliases(alias ?? []);
 
-  const validationStamp = await api.validate({
+  const validateOptions: api.ValidateOptions = {
     schema: {
       files: schema,
       base,
       pathAliases,
     },
-    // Operations share the schema's base directory and path aliases.
-    operations:
-      operations != null ? { files: operations, base, pathAliases } : undefined,
-  });
+  };
+  if (operations != null) {
+    validateOptions.operations = {
+      files: operations,
+      base,
+      pathAliases,
+    };
+  }
+  const validationStamp = await api.validate(validateOptions);
 
   if (stamp != null) {
     const destination = nodePath.resolve(base ?? process.cwd(), stamp);

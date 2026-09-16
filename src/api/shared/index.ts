@@ -1,4 +1,4 @@
 export * from './GraphqlFiles';
 export * from './loadDocuments';
 export * from './loadSchema';
-export * from './OperationValidationError';
+export * from './validateDocuments';

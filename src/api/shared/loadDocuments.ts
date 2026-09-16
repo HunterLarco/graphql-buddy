@@ -8,12 +8,11 @@ import type * as graphqlUtils from '@graphql-tools/utils';
 import * as graphqlFilesModule from './GraphqlFiles';
 
 /**
- * Loads GraphQL operation documents (queries, mutations, subscriptions, and
- * fragments) from disk.
+ * Loads, validates, and parses graphql documents.
  *
- * Each file is returned as an independent document. `#import` statements are
- * resolved by @graphql-tools/graphql-file-loader, so a document that imports a
- * fragment from another file comes back self-contained.
+ * @param graphqlFiles - Operation or fragment files to process.
+ *
+ * @returns The parsed GraphQL documents (or throws an error if parsing fails).
  */
 export const loadDocuments = async (
   graphqlFiles: graphqlFilesModule.GraphqlFiles,
@@ -21,9 +20,11 @@ export const loadDocuments = async (
   const { files, pathAliases } =
     await graphqlFilesModule.normalizeGraphqlFiles(graphqlFiles);
 
-  // Like `loadSchema`, we manually verify inputs exist because the file loader
-  // silently skips missing files and we want to inform clients when expected
-  // inputs are absent.
+  // @graphql-tools/graphql-file-loader silently skips input files which are not
+  // found. I suspect this is so that it can delegate missing inputs to other
+  // loaders. For our purposes, this is undesirable because we want to inform
+  // clients if expected inputs are missing. For that reason, we manually
+  // validate that the files exist first.
   for (const file of files) {
     try {
       await nodeFs.access(file, nodeFs.constants.F_OK);
