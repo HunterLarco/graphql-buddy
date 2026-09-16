@@ -35,6 +35,12 @@ export const loadDocuments = async (
 
   return await graphqlLoad.loadDocuments(files, {
     loaders: [new graphqlFileLoader.GraphQLFileLoader()],
+    // By default @graphql-tools/load strips type definitions out of executable
+    // documents, so SDL that lands in an operations file (or a schema file
+    // caught by an operations glob) would silently vanish. Keeping every
+    // definition lets `ExecutableDefinitionsRule` reject it during validation
+    // instead.
+    filterKinds: [],
     pathAliases: {
       mappings: Object.fromEntries(pathAliases.entries()),
     },

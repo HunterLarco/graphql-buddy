@@ -74,4 +74,25 @@ describe(`validate`, () => {
       }),
     ).rejects.toThrowError(`Cannot query field "thisFieldDoesNotExist"`);
   });
+
+  it(`throws for operations files that contain type-system definitions.`, async () => {
+    await expect(
+      validate.validate({
+        schema: {
+          files: [`*.graphql`],
+          base: nodePath.resolve(
+            __dirname,
+            `../../../test_fixtures/multiple_files`,
+          ),
+        },
+        operations: {
+          files: [`*.graphql`],
+          base: nodePath.resolve(
+            __dirname,
+            `../../../test_fixtures/operations/mixed_sdl`,
+          ),
+        },
+      }),
+    ).rejects.toThrowError(`The "Bogus" definition is not executable.`);
+  });
 });

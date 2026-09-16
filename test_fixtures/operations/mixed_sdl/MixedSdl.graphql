@@ -1,0 +1,9 @@
+query MixedSdl {
+  allFoo {
+    id
+  }
+}
+
+type Bogus {
+  x: Int
+}
