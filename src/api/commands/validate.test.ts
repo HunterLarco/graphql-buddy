@@ -79,6 +79,12 @@ describe(`validate`, () => {
       ).resolves.toStrictEqual(expect.any(String));
     });
 
+    it(`throws for operations when the schema has no matching root type.`, async () => {
+      await expect(
+        validate.validate(documentsFixture(`missing_root_type`)),
+      ).rejects.toThrowError(`Schema does not define a query root type.`);
+    });
+
     it(`still validates field selections inside fragment-only files.`, async () => {
       await expect(
         validate.validate(documentsFixture(`invalid_fragment`)),
