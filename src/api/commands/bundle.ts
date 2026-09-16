@@ -4,7 +4,7 @@ import * as graphql from 'graphql';
 import * as shared from '../shared';
 
 export type BundleOptions = {
-  schema: shared.LoadSchemaOptions;
+  schema: shared.GraphqlFiles;
 
   // Defaults to true.
   shake?: boolean | null;

@@ -7,6 +7,8 @@ import * as commands from './commands';
 
 const main = () => {
   process.setUncaughtExceptionCaptureCallback((error) => {
+    process.exitCode = 1;
+
     // When thrown natively, GraphQLError prints like any other error with
     // minimal context, however, when logged with `.toString()` it prints
     // helpful debugging information critical for debugging syntax errors (such

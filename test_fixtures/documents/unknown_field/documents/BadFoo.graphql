@@ -1,0 +1,6 @@
+query BadFoo {
+  allFoo {
+    id
+    thisFieldDoesNotExist
+  }
+}

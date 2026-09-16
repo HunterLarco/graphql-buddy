@@ -1,0 +1,8 @@
+#import "./BarFields.graphql"
+
+fragment FooFields on Foo {
+  id
+  bar {
+    ...BarFields
+  }
+}

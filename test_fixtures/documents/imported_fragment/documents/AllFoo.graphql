@@ -1,0 +1,12 @@
+#import "./FooFields.graphql"
+
+query AllFoo {
+  allFoo {
+    ...FooFields
+    bar {
+      baz {
+        dateCreated
+      }
+    }
+  }
+}

@@ -3,20 +3,20 @@ import * as nodeFs from 'node:fs/promises';
 import * as graphqlFileLoader from '@graphql-tools/graphql-file-loader';
 import * as graphqlLoad from '@graphql-tools/load';
 
-import type * as graphql from 'graphql';
+import type * as graphqlUtils from '@graphql-tools/utils';
 
 import * as graphqlFilesModule from './GraphqlFiles';
 
 /**
- * Loads, validates, and parses graphql schema.
+ * Loads, validates, and parses graphql documents.
  *
- * @param graphqlFiles - Schema files to process.
+ * @param graphqlFiles - Operation or fragment files to process.
  *
- * @returns The parsed GraphQL schema (or throws an error if parsing fails).
+ * @returns The parsed GraphQL documents (or throws an error if parsing fails).
  */
-export const loadSchema = async (
+export const loadDocuments = async (
   graphqlFiles: graphqlFilesModule.GraphqlFiles,
-): Promise<graphql.GraphQLSchema> => {
+): Promise<Array<graphqlUtils.Source>> => {
   const { files, pathAliases } =
     await graphqlFilesModule.normalizeGraphqlFiles(graphqlFiles);
 
@@ -33,8 +33,14 @@ export const loadSchema = async (
     }
   }
 
-  return graphqlLoad.loadSchema(files, {
+  return await graphqlLoad.loadDocuments(files, {
     loaders: [new graphqlFileLoader.GraphQLFileLoader()],
+    // By default @graphql-tools/load strips type definitions out of executable
+    // documents, so SDL that lands in an operations file (or a schema file
+    // caught by an operations glob) would silently vanish. Keeping every
+    // definition lets `ExecutableDefinitionsRule` reject it during validation
+    // instead.
+    filterKinds: [],
     pathAliases: {
       mappings: Object.fromEntries(pathAliases.entries()),
     },

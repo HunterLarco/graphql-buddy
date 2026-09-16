@@ -9,7 +9,9 @@ import * as shared from '../shared';
 export const createValidateCommand = () =>
   new commander.Command()
     .name(`validate`)
-    .description(`Checks that all provided GraphQL files form a valid schema.`)
+    .description(
+      `Checks that all provided GraphQL files form a valid schema, and optionally that operations are valid against it.`,
+    )
     .argument(`<schema...>`, `Input GraphQL schema files to validate.`)
     .option(
       `-b, --base <directory>`,
@@ -18,6 +20,10 @@ export const createValidateCommand = () =>
     .option(
       `-a, --alias <pattern...>`,
       `Path alias options for @graphql-tools/load.`,
+    )
+    .option(
+      `-o, --operations <operations...>`,
+      `GraphQL operation documents to validate against the schema.`,
     )
     .option(
       `--stamp <file>`,
@@ -35,18 +41,29 @@ const validate = async (options: {
   schema: Array<string>;
   base?: string;
   alias?: Array<string>;
+  operations?: Array<string>;
   stamp?: string;
   silent: boolean;
 }): Promise<void> => {
-  const { schema, base, alias, stamp, silent } = options;
+  const { schema, base, alias, operations, stamp, silent } = options;
 
-  const validationStamp = await api.validate({
+  const pathAliases = shared.parsePathAliases(alias ?? []);
+
+  const validateOptions: api.ValidateOptions = {
     schema: {
       files: schema,
       base,
-      pathAliases: shared.parsePathAliases(alias ?? []),
+      pathAliases,
     },
-  });
+  };
+  if (operations != null) {
+    validateOptions.operations = {
+      files: operations,
+      base,
+      pathAliases,
+    };
+  }
+  const validationStamp = await api.validate(validateOptions);
 
   if (stamp != null) {
     const destination = nodePath.resolve(base ?? process.cwd(), stamp);

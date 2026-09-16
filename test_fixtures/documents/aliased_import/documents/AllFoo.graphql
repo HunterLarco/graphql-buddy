@@ -1,0 +1,7 @@
+#import "@fragments/FooFields.graphql"
+
+query AllFoo {
+  allFoo {
+    ...FooFields
+  }
+}
