@@ -63,6 +63,29 @@ For example:
 npx graphql-buddy validate **/*.graphql
 ```
 
+You can also validate GraphQL operations (queries, mutations, subscriptions,
+and fragments) against the schema with `--operations` (`-o`). Each operation is
+checked against the schema, ensuring every referenced field, argument, and type
+exists.
+
+```sh
+npx graphql-buddy validate schema/**/*.graphql --operations 'operations/**/*.graphql'
+```
+
+Operations are validated one file at a time. When an operation depends on a
+fragment defined elsewhere, pull it in with an `#import` (the same mechanism the
+schema loader uses); the imported fragment is resolved before validation:
+
+```graphql
+# import "./FooFields.graphql"
+
+query AllFoo {
+  allFoo {
+    ...FooFields
+  }
+}
+```
+
 For many build systems (such as BUCK and BAZEL) all build steps _must_ emit a
 file. Validate accomodates this by writing "validation stamps", a file only
 written if validation is successful and documents the exact settings used during

@@ -32,4 +32,46 @@ describe(`validate`, () => {
       }),
     ).rejects.toThrowError(`Unknown type "DateTime"`);
   });
+
+  it(`validates operations against the schema, resolving imported fragments.`, async () => {
+    await expect(
+      validate.validate({
+        schema: {
+          files: [`*.graphql`],
+          base: nodePath.resolve(
+            __dirname,
+            `../../../test_fixtures/multiple_files`,
+          ),
+        },
+        operations: {
+          files: [`*.graphql`],
+          base: nodePath.resolve(
+            __dirname,
+            `../../../test_fixtures/operations/valid`,
+          ),
+        },
+      }),
+    ).resolves.toStrictEqual(expect.any(String));
+  });
+
+  it(`throws for operations that reference unknown fields.`, async () => {
+    await expect(
+      validate.validate({
+        schema: {
+          files: [`*.graphql`],
+          base: nodePath.resolve(
+            __dirname,
+            `../../../test_fixtures/multiple_files`,
+          ),
+        },
+        operations: {
+          files: [`*.graphql`],
+          base: nodePath.resolve(
+            __dirname,
+            `../../../test_fixtures/operations/invalid`,
+          ),
+        },
+      }),
+    ).rejects.toThrowError(`Cannot query field "thisFieldDoesNotExist"`);
+  });
 });
