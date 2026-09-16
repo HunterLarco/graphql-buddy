@@ -35,12 +35,12 @@ export const validateDocuments = (options: ValidateDocumentsOptions): void => {
  * This deliberately does not use `graphql.validate`. That function begins by
  * asserting the *schema* is valid, which among other things requires a query
  * root type. Fragment libraries are frequently validated against only the
- * type definitions they select from, which need not include any root
- * operation type, and none of the specified validation rules actually depend
- * on one when checking fragments. So we drive the same rules with the same
- * public machinery (`ValidationContext`, `TypeInfo`, `visitInParallel`) and
- * simply skip the schema assertion. Schema validity is the schema loader's
- * responsibility, not this function's.
+ * type definitions they select from.
+ *
+ * @param schema - The parsed graphql schema.
+ * @param document - The document to validate.
+ *
+ * @returns Any errors found in the document.
  */
 const validateDocument = (
   schema: graphql.GraphQLSchema,
@@ -53,9 +53,9 @@ const validateDocument = (
       definition.kind === graphql.Kind.OPERATION_DEFINITION,
   );
 
-  // Operations, unlike fragments, genuinely require a root type to validate
-  // against. Without this check the rules would still run but report every
-  // top-level field as unknown, which obscures the real problem.
+  // Ensure each operation matches a root GraphQL type. This is not natively
+  // checked by the `ValidationContext` because the validation context only
+  // inspects operations whose type information is available.
   for (const operation of operations) {
     if (schema.getRootType(operation.operation) == null) {
       errors.push(
@@ -65,9 +65,6 @@ const validateDocument = (
         ),
       );
     }
-  }
-  if (errors.length > 0) {
-    return errors;
   }
 
   // Fragment-only documents are fragment "libraries" that operations pull in
