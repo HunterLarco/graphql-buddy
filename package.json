@@ -26,6 +26,7 @@
   },
   "funding": "https://github.com/sponsors/hunterlarco",
   "scripts": {
+    "prepublishOnly": "pnpm run build",
     "build": "pnpm run typecheck && pnpm run bundle",
     "typecheck": "tsc --noEmit",
     "bundle": "tsup",
