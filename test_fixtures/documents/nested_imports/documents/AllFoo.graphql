@@ -1,0 +1,7 @@
+#import "./FooFields.graphql"
+
+query AllFoo {
+  allFoo {
+    ...FooFields
+  }
+}

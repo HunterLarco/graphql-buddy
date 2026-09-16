@@ -12,7 +12,7 @@ describe(`bundle`, () => {
           files: [`*.graphql`],
           base: nodePath.resolve(
             __dirname,
-            `../../../test_fixtures/single_file`,
+            `../../../test_fixtures/schema/single_file`,
           ),
         },
       }),
@@ -43,7 +43,7 @@ type Bar {
           files: [`*.graphql`],
           base: nodePath.resolve(
             __dirname,
-            `../../../test_fixtures/multiple_files`,
+            `../../../test_fixtures/schema/multiple_files`,
           ),
         },
       }),
@@ -87,7 +87,7 @@ type Query {
           files: [`*.graphql`],
           base: nodePath.resolve(
             __dirname,
-            `../../../test_fixtures/single_file_with_extra_deps`,
+            `../../../test_fixtures/schema/single_file_with_extra_deps`,
           ),
         },
       }),
@@ -129,7 +129,7 @@ type FooEvent {
           files: [`*.graphql`],
           base: nodePath.resolve(
             __dirname,
-            `../../../test_fixtures/missing_scalar`,
+            `../../../test_fixtures/schema/missing_scalar`,
           ),
         },
       }),
