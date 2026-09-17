@@ -30,13 +30,12 @@ export const bundle = async (options: BundleOptions): Promise<string> => {
   // By default, native graphql directives are not printed in the schema BUT if
   // the user manually defined them we preserve the directive to ensure that the
   // bundle mirror the source.
-  const userDefinedBuiltins = schema
-    .getDirectives()
-    .filter(
-      (directive) =>
-        graphql.isSpecifiedDirective(directive) && directive.astNode != null,
-    )
-    .map((directive) => print(directive.astNode));
+  const userDefinedBuiltins: Array<string> = [];
+  for (const directive of schema.getDirectives()) {
+    if (graphql.isSpecifiedDirective(directive) && directive.astNode != null) {
+      userDefinedBuiltins.push(graphql.print(directive.astNode));
+    }
+  }
 
   return [printed, ...userDefinedBuiltins].join(`\n\n`);
 };
