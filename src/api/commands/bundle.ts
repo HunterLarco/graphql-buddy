@@ -1,4 +1,5 @@
 import * as graphqlToolsUtils from '@graphql-tools/utils';
+import * as graphql from 'graphql';
 
 import * as shared from '../shared';
 
@@ -24,5 +25,18 @@ export const bundle = async (options: BundleOptions): Promise<string> => {
     schema = graphqlToolsUtils.pruneSchema(schema);
   }
 
-  return graphqlToolsUtils.printSchemaWithDirectives(schema);
+  const printed = graphqlToolsUtils.printSchemaWithDirectives(schema);
+
+  // By default, native graphql directives are not printed in the schema BUT if
+  // the user manually defined them we preserve the directive to ensure that the
+  // bundle mirror the source.
+  const userDefinedBuiltins = schema
+    .getDirectives()
+    .filter(
+      (directive) =>
+        graphql.isSpecifiedDirective(directive) && directive.astNode != null,
+    )
+    .map((directive) => print(directive.astNode));
+
+  return [printed, ...userDefinedBuiltins].join(`\n\n`);
 };
