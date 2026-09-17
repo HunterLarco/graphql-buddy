@@ -1,0 +1,23 @@
+directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION
+
+directive @tag(name: String!) repeatable on OBJECT | FIELD_DEFINITION | ENUM
+
+directive @unused on FIELD_DEFINITION
+
+enum Role @tag(name: "enum") {
+  ADMIN
+  USER
+}
+
+type Query {
+  foo: Foo
+  legacyFoo: Foo @deprecated(reason: "Use `foo` instead.")
+}
+
+type Foo @auth @tag(name: "first") @tag(name: "second") {
+  id: ID!
+
+  displayName: String @auth(requires: USER)
+
+  secret: String @auth(requires: ADMIN) @tag(name: "sensitive")
+}

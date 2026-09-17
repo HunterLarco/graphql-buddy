@@ -1,5 +1,4 @@
 import * as graphqlToolsUtils from '@graphql-tools/utils';
-import * as graphql from 'graphql';
 
 import * as shared from '../shared';
 
@@ -25,5 +24,5 @@ export const bundle = async (options: BundleOptions): Promise<string> => {
     schema = graphqlToolsUtils.pruneSchema(schema);
   }
 
-  return graphql.printSchema(schema);
+  return graphqlToolsUtils.printSchemaWithDirectives(schema);
 };
