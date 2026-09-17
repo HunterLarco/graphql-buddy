@@ -18,6 +18,10 @@ describe(`bundle`, () => {
       }),
     ).toStrictEqual(
       `
+schema {
+  query: Query
+}
+
 type Query {
   foo: Foo
   bar: Bar
@@ -49,6 +53,11 @@ type Bar {
       }),
     ).toStrictEqual(
       `
+schema {
+  query: Query
+  mutation: Mutation
+}
+
 type Bar {
   baz: Baz
 }
@@ -93,6 +102,12 @@ type Query {
       }),
     ).toStrictEqual(
       `
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
 type Query {
   foo: Foo
 }
@@ -117,6 +132,48 @@ type Bar {
 
 type FooEvent {
   foo: Foo!
+}
+`.trim(),
+    );
+  });
+
+  it(`preserves directive definitions and usages.`, async () => {
+    expect(
+      await bundle.bundle({
+        schema: {
+          files: [`*.graphql`],
+          base: nodePath.resolve(
+            __dirname,
+            `../../../test_fixtures/schema/directives`,
+          ),
+        },
+      }),
+    ).toStrictEqual(
+      `
+schema {
+  query: Query
+}
+
+directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION
+
+directive @tag(name: String!) repeatable on OBJECT | FIELD_DEFINITION | ENUM
+
+directive @unused on FIELD_DEFINITION
+
+enum Role @tag(name: "enum") {
+  ADMIN
+  USER
+}
+
+type Query {
+  foo: Foo
+  legacyFoo: Foo @deprecated(reason: "Use \`foo\` instead.")
+}
+
+type Foo @auth @tag(name: "first") @tag(name: "second") {
+  id: ID!
+  displayName: String @auth(requires: USER)
+  secret: String @auth(requires: ADMIN) @tag(name: "sensitive")
 }
 `.trim(),
     );
