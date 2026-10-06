@@ -1,0 +1,19 @@
+"""
+Fetches a single foo by id.
+"""
+query DescribedFoo(
+  "The id of the foo to fetch."
+  $id: ID!
+) {
+  foo(id: $id) {
+    ...DescribedFooFields
+  }
+}
+
+"""
+The fields selected on a foo.
+"""
+fragment DescribedFooFields on Foo {
+  id
+  name
+}
