@@ -4,9 +4,12 @@ Fetches a single foo by id.
 query DescribedFoo(
   "The id of the foo to fetch."
   $id: ID!
+  "Whether to include the foo's name."
+  $includeName: Boolean!
 ) {
   foo(id: $id) {
     ...DescribedFooFields
+    name @include(if: $includeName)
   }
 }
 
@@ -15,5 +18,4 @@ The fields selected on a foo.
 """
 fragment DescribedFooFields on Foo {
   id
-  name
 }
