@@ -1,4 +1,5 @@
 import * as graphql from 'graphql';
+import * as graphqlAst from 'graphql/language/ast.js';
 
 import type * as graphqlUtils from '@graphql-tools/utils';
 
@@ -91,7 +92,26 @@ const validateDocument = (
       typeInfo,
       graphql.visitInParallel(rules.map((rule) => rule(context))),
     ),
+    QueryDocumentKeysToValidate,
   );
 
   return errors;
 };
+
+/**
+ * The AST keys to traverse during validation, which mirrors the private
+ * `QueryDocumentKeysToValidate` in `graphql.validate`.
+ *
+ * Per the specification, descriptions must not affect validation. Visiting
+ * them would, for example, let `ValuesOfCorrectTypeRule` check a variable's
+ * description string against the variable's type.
+ *
+ * See https://spec.graphql.org/September2025/#sec-Descriptions
+ */
+const QueryDocumentKeysToValidate: Parameters<typeof graphql.visit>[2] =
+  Object.fromEntries(
+    Object.entries(graphqlAst.QueryDocumentKeys).map(([kind, keys]) => [
+      kind,
+      keys.filter((key) => key !== `description`),
+    ]),
+  );
