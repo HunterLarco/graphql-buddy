@@ -91,6 +91,12 @@ describe(`validate`, () => {
       ).rejects.toThrowError(`Cannot query field "thisFieldDoesNotExist"`);
     });
 
+    it(`allows descriptions on operations, variables, and fragments.`, async () => {
+      await expect(
+        validate.validate(documentsFixture(`executable_descriptions`)),
+      ).resolves.toStrictEqual(expect.any(String));
+    });
+
     it(`throws for operations that reference unknown fields.`, async () => {
       await expect(
         validate.validate(documentsFixture(`unknown_field`)),
