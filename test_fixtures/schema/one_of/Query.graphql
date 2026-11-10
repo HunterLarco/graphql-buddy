@@ -1,0 +1,5 @@
+#import './FooInput.graphql'
+
+type Query {
+  foo(input: FooInput!): String
+}
