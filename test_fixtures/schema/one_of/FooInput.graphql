@@ -1,0 +1,4 @@
+input FooInput @oneOf {
+  bar: String
+  baz: Int
+}

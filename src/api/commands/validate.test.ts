@@ -43,6 +43,12 @@ describe(`validate`, () => {
       ).resolves.toStrictEqual(expect.any(String));
     });
 
+    it(`allows built-in directives in imported files without declaring them.`, async () => {
+      await expect(
+        validate.validate({ schema: schemaFixture(`one_of`) }),
+      ).resolves.toStrictEqual(expect.any(String));
+    });
+
     it(`throws for invalid schema.`, async () => {
       await expect(
         validate.validate({ schema: schemaFixture(`missing_scalar`) }),
